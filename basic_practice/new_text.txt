@@ -1,0 +1,2 @@
+This is the content that will be put in the newly created file using Python code.
+I think this is awesome!!!
