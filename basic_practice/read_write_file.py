@@ -1,7 +1,7 @@
 import simplejson as json
 import os
 
-file_path = "./data.json"
+file_path = "files/data.json"
 if os.path.exists(file_path) and os.path.getsize(file_path) != 0:
     old_file = open(file_path, "r+")
     data = json.loads(old_file.read())
