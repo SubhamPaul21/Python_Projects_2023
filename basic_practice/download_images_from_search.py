@@ -20,16 +20,14 @@ for index, link_item in enumerate(links):
     try:
         image_link = link_item.find("a", {"class": "inflnk"}).attrs['href']
         # print("links: ", image_link)
+        img_obj = requests.get(base_url + image_link)
+        print("Getting", img_obj.url)
+        img_soup = BeautifulSoup(img_obj.content, "html.parser")
+        actual_img_obj = img_soup.find("div", {"id": "b_content"})
+        img_attrs = actual_img_obj.find("div").attrs["data-firstimg"]
+        img_attrs_json = json.loads(img_attrs)
+        final_img_url = img_attrs_json["thumbnailUrl"]
         try:
-            img_obj = requests.get(base_url + image_link)
-            # print("Getting", img_obj.url)
-            img_text = img_obj.content
-            # print("Content:", img_text)
-            img_soup = BeautifulSoup(img_text, "html.parser")
-            actual_img_obj = img_soup.find("div", {"id": "b_content"})
-            img_attrs = actual_img_obj.find("div").attrs["data-firstimg"]
-            img_attrs_json = json.loads(img_attrs)
-            final_img_url = img_attrs_json["thumbnailUrl"]
             final_img_obj = requests.get(final_img_url)
             image = Image.open(BytesIO(final_img_obj.content))
             print(image.format)
